@@ -21,4 +21,4 @@ const ProductoSchema = mongoose.Schema({
         default: Date.now()
     }
 });
-mongoose.module.exports = mongoose.model('Proucto', ProductoSchema);
+module.exports = mongoose.model('Producto', ProductoSchema);
