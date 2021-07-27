@@ -11,6 +11,4 @@ conectarDB()
 //
 app.use('/api/productos', require('./routes/producto'));
 
-app.listen(4000, () => {
-    console.log('perfecto servidor run');
-})
+app.listen(4000, () => {})
