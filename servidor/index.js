@@ -1,7 +1,13 @@
-console.log('Aqui en el js de backEnd');
-//Se crea el servidor
 const express = require('express');
+// const conectarDB = require('conectarDB');
+const conectarDB = require('./config/db');
+
+//Se crea el servidor
 const app = express();
+
+//Se conecta a la Base de Datos
+conectarDB()
+
 // se define la ruta principal
 app.get('/', (req, res) => {
     res.send('hola mundo')
