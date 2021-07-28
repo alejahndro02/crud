@@ -46,14 +46,27 @@ export class CrearProductoComponent implements OnInit {
       ubicacion:this.productoForm.get('ubicacion')?.value,
       precio:this.productoForm.get('precio')?.value,
     }
-    this._productoService.guardarProducto(PRODUCTO).subscribe( data => {
-      this.toastr.success('El producto fue creado con exito!!', 'Producto Registrado');
-      this.router.navigate(['/']);
-    }, error => {
-      console.log(error);
-      this.productoForm.reset();
-      
-    })
+    if(this.id!==null){
+      //editamos profucto
+      this._productoService.editarProducto(this.id, PRODUCTO).subscribe( data => {
+        this.toastr.info('El producto fue actualizado con exito!!', 'Producto Actualizado');
+        this.router.navigate(['/']);
+      }, error => {
+        console.log(error);
+        this.productoForm.reset();
+        
+      })
+    }else{
+      //agregamos producto
+      this._productoService.guardarProducto(PRODUCTO).subscribe( data => {
+        this.toastr.success('El producto fue creado con exito!!', 'Producto Registrado');
+        this.router.navigate(['/']);
+      }, error => {
+        console.log(error);
+        this.productoForm.reset();
+        
+      })
+    }
   }
   esEditar(){
     if(this.id !== null){
