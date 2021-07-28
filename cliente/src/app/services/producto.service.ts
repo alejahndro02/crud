@@ -8,9 +8,12 @@ import { Observable } from 'rxjs';
 export class ProductoService {
   url= 'http://localhost:4000/api/productos/';
 
-  constructor(private http: HttpClient) { }
+  constructor( private http: HttpClient ) { }
   
   getProductos(): Observable<any>{
     return this.http.get(this.url);
+  }
+  eliminarProducto( id:string ): Observable<any>{
+    return this.http.delete( this.url + id )
   }
 }
