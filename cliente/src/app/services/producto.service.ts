@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Producto } from '../models/pruducto';
 
 @Injectable({
   providedIn: 'root'
@@ -15,5 +16,8 @@ export class ProductoService {
   }
   eliminarProducto( id:string ): Observable<any>{
     return this.http.delete( this.url + id )
+  }
+  guardarProducto(producto:Producto): Observable<any>{
+    return this.http.post(this.url, producto);
   }
 }
