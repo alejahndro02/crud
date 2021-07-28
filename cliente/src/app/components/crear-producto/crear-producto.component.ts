@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Producto } from 'src/app/models/pruducto';
 import { ProductoService } from 'src/app/services/producto.service';
@@ -13,19 +13,31 @@ import { ProductoService } from 'src/app/services/producto.service';
 })
 export class CrearProductoComponent implements OnInit {
   productoForm: FormGroup;
+  titulo = 'Crear Producto';
+  id:string | null;
+
+  //otra opcion para eliminar el error
+  // id:string;
+
   constructor(private fb: FormBuilder,
               private router:Router,
               private toastr: ToastrService,
-              private _productoService: ProductoService) {
+              private _productoService: ProductoService,
+              private aRouter: ActivatedRoute) {
+
     this.productoForm = this.fb.group({
       nombre:['', Validators.required, ],
       categoria:['', Validators.required, ],
       ubicacion:['', Validators.required, ],
       precio:['', Validators.required, ],
     });
+    this.id = this.aRouter.snapshot.paramMap.get('id');
+    // this.id = this.aRouter.snapshot.paramMap.get('id')!;
+
    }
 
   ngOnInit(): void {
+    this.esEditar();
   }
   agregarProducto(){
     const PRODUCTO: Producto = {
@@ -42,5 +54,18 @@ export class CrearProductoComponent implements OnInit {
       this.productoForm.reset();
       
     })
+  }
+  esEditar(){
+    if(this.id !== null){
+      this.titulo = 'Editar Producto';
+      this._productoService.obtenerProducto(this.id).subscribe( data => {
+        this.productoForm.setValue({
+          nombre:data.nombre,
+          categoria:data.categoria,
+          ubicacion:data.ubicacion,
+          precio:data.precio,
+        })
+      })
+    }
   }
 }
